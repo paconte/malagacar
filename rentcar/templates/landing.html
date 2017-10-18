@@ -5,7 +5,9 @@
 <div class="marketing">
 
     <div class="jumbotron">
-        <form>
+        <form action="rent" method="post">
+            {% csrf_token %}
+
             <div class="form-group row">
                 <label for="input-location-arrival" class="col-sm-2 col-form-label" style="font-weight: bold;">Arrival</label>
                 <div class="col-sm-10">
@@ -137,11 +139,8 @@
 
 </div>
 
-
 <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 <script src="{% static 'js/jquery-ui.min.js' %}"></script>
-
-
 <script type="text/javascript">
   $( function() {
     $("#date-arrival").datepicker(
@@ -168,5 +167,7 @@
     });
   });
 </script>
+{% block scripts %}
+{% endblock %}
 
 {% endblock %}
