@@ -15,3 +15,7 @@ def rent(request):
         print("TODO BIEN")
         return render(request, 'rent.html')
 
+
+def booking(request):
+    return render(request, 'booking.html')
+

@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="card">
+  <h4 class="card-header">DATES</h4>
+  <div class="card-body" style="z-index: 100;">
+      <table class="table borderless">
+          <thead>
+          <tr>
+              <th>Arrival</th>
+              <th>Departure</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+              <td><i class="fa fa-flag-checkered"></i>  Malaga airport</td>
+              <td><i class="fa fa-flag-checkered"></i>  Malaga airport</td>
+          </tr>
+          <tr>
+              <td><i class="fa fa-calendar"></i> 21/10/2017</td>
+              <td><i class="fa fa-calendar"></i>  28/10/2017</td>
+          </tr>
+          <tr>
+              <td><i class="fa fa-clock-o"></i>  12:00</td>
+              <td><i class="fa fa-clock-o"></i>  18:00</td>
+          </tr>
+          <tr>
+              <td><b>Flight Number:</b>  FY 9080</td>
+              <td><b>Duration:</b>  7 day(s)</td>
+          </tr>
+          </tbody>
+      </table>
+  </div>
+</div>
+<br>
+
+<div class="card">
+    <h4 class="card-header">CAR HIRE DETAILS</h4>
+    <div class="card-body">
+        <h4 class="card-title">Volkswagen Golf IV or similar</h4>
+        <dl>
+            <dd><i class="fa fa-check" style="color: #4CAF50;"></i> Partial Damage Cover with excess (CDW)</dd>
+            <dd><i class="fa fa-check" style="color: #4CAF50;"></i> Roadside Assistance with charge</dd>
+            <dd><i class="fa fa-check" style="color: #4CAF50;"></i> Unlimited mileage</dd>
+            <dd><i class="fa fa-check" style="color: #4CAF50;"></i> VAT included.</dd>
+        </dl>
+    </div>
+    <div class="card-footer text-right">
+        <button class="btn">
+            Total price: <span class="badge badge-secondary">70 &euro;</span> VAT incl.
+        </button>
+    </div>
+</div>
+<br>
+
+<div class="card">
+  <h4 class="card-header">PERSONAL DATA</h4>
+  <div class="card-body">
+      <form>
+          <div class="form-group row">
+              <label for="firstname" class="col-sm-3 col-form-label">First Name*</label>
+              <div class="col-sm-9">
+                  <input class="form-control" id="firstname">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="lastname" class="col-sm-3 col-form-label">Last Name*</label>
+              <div class="col-sm-9">
+                  <input class="form-control" id="lastname">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="email" class="col-sm-3 col-form-label">Email*</label>
+              <div class="col-sm-9">
+                  <input type="email" class="form-control" id="email">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="phone" class="col-sm-3 col-form-label">Mobile phone*</label>
+              <div class="col-sm-9">
+                  <input type="email" class="form-control" id="phone">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="address" class="col-sm-3 col-form-label">Address*</label>
+              <div class="col-sm-9">
+                  <input class="form-control" id="address">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="zipcode" class="col-sm-3 col-form-label">Zipcode*</label>
+              <div class="col-sm-9">
+                  <input class="form-control" id="zipcode">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="city" class="col-sm-3 col-form-label">City*</label>
+              <div class="col-sm-9">
+                  <input class="form-control" id="city">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="country" class="col-sm-3 col-form-label">Country*</label>
+              <div class="col-sm-9">
+                  <input class="form-control" id="country">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="comments" class="col-sm-3 col-form-label">Comments*</label>
+              <div class="col-sm-9">
+                  <textarea class="form-control" id="comments" rows="3"></textarea>
+              </div>
+          </div>
+
+          <div class="form-check">
+              <label class="form-check-label">
+                  <input type="checkbox" class="form-check-input">
+                  I have read, agree, and understand Malagacar.com's privacy policy.
+              </label>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+  </div>
+</div>
+{% endblock %}

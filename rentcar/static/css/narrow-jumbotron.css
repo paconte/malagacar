@@ -77,3 +77,17 @@ body {
 .oi {
    color: color: #4CAF50;
 }
+
+.borderless td, .borderless th {
+    border: none;
+}
+
+.table-borderless td,
+.table-borderless th {
+    border: 0;
+}
+
+.nounderline {
+    text-decoration: none
+}
+
