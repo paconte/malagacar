@@ -24,11 +24,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('DJANGO_MALAGACAR_SECRET_KEY')
 STRIPE_TEST_API_KEY = os.environ.get('STRIPE_TEST_API_KEY')
 STRIPE_DATA_KEY = os.environ.get('STRIPE_DATA_KEY')
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['62.75.188.101', 'frevilla.com']
+ALLOWED_HOSTS = ['62.75.188.101', 'frevilla.com', 'www.frevilla.com']
 
 
 # Application definition
