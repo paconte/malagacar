@@ -26,10 +26,10 @@
         <nav>
             <ul class="nav float-right">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
+                    <a class="nav-link" href="{% url 'index' %}">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
+                    <a class="nav-link" href="{% url 'index' %}">Contact</a>
                 </li>
             </ul>
         </nav>
@@ -45,7 +45,7 @@
     <hr class="featurette-divider">
     <footer>
         <p class="float-right"><a href="#">Back to top</a></p>
-        <p>&copy; 2017 Malagacar S.L. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+        <p>&copy; 2017 Malagacar S.L. &middot; <a href="{% url 'index' %}">Privacy</a> &middot; <a href="#">Terms</a></p>
     </footer>
 </div>
 
