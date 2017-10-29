@@ -13,5 +13,6 @@ from .prod_settings import *
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+WSGI_APPLICATION = 'malagacar.settings.wsgi.application'
 
 ALLOWED_HOSTS = []
