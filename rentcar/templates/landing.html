@@ -1,149 +1,28 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load widget_tweaks %}
 
 {% block content %}
 <div class="marketing">
 
-    <div class="jumbotron">
-        <form action="rent" method="post">
-            {% csrf_token %}
+    {% include "find_cars_form.html" %}
 
-            <div class="form-group row">
-                <label for="input-location-arrival" class="col-sm-2 col-form-label" style="font-weight: bold;">Arrival</label>
-                <div class="col-sm-10">
-                    <select id="input-location-arrival" class="form-control">
-                        <option>Málaga Airport</option>
-                    </select>
-                </div>
-                <div class="col-sm-2 col-form-label"></div>
-                <div class="col-sm-6 input-group" >
-                    <input type="text" class="form-control" id="date-arrival">
-                    <span class="input-group-addon">
-                    <span class="oi oi-calendar"/>
-                </span>
-                </div>
-                <div class="col-sm-2">
-                    <select class="form-control">
-                        <option value="--" selected disabled>--</option>
-                        <option>00</option>
-                        <option>01</option>
-                        <option>02</option>
-                        <option>03</option>
-                        <option>04</option>
-                        <option>05</option>
-                        <option>06</option>
-                        <option>07</option>
-                        <option>08</option>
-                        <option>09</option>
-                        <option>10</option>
-                        <option>11</option>
-                        <option>12</option>
-                        <option>13</option>
-                        <option>14</option>
-                        <option>15</option>
-                        <option>16</option>
-                        <option>17</option>
-                        <option>18</option>
-                        <option>19</option>
-                        <option>20</option>
-                        <option>21</option>
-                        <option>22</option>
-                        <option>23</option>
-                    </select>
-                </div>
-                <div class="col-sm-2">
-                    <select class="form-control">
-                        <option value="--" selected disabled>--</option>
-                        <option>00</option>
-                        <option>15</option>
-                        <option>30</option>
-                        <option>45</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="input-location-departure" class="col-sm-2 col-form-label" style="font-weight: bold;">Departure</label>
-                <div class="col-sm-10">
-                    <select id="input-location-departure" class="form-control">
-                        <option>Málaga Airport</option>
-                    </select>
-                </div>
-                <div class="col-sm-2 col-form-label"></div>
-                <div class="col-sm-6 input-group" >
-                    <input type="text" class="form-control" id="date-departure">
-                    <span class="input-group-addon">
-                    <span class="oi oi-calendar"/>
-                </span>
-                </div>
-                <div class="col-sm-2">
-                    <select class="form-control">
-                        <option value="--" selected disabled>--</option>
-                        <option>00</option>
-                        <option>01</option>
-                        <option>02</option>
-                        <option>03</option>
-                        <option>04</option>
-                        <option>05</option>
-                        <option>06</option>
-                        <option>07</option>
-                        <option>08</option>
-                        <option>09</option>
-                        <option>10</option>
-                        <option>11</option>
-                        <option>12</option>
-                        <option>13</option>
-                        <option>14</option>
-                        <option>15</option>
-                        <option>16</option>
-                        <option>17</option>
-                        <option>18</option>
-                        <option>19</option>
-                        <option>20</option>
-                        <option>21</option>
-                        <option>22</option>
-                        <option>23</option>
-                    </select>
-                </div>
-                <div class="col-sm-2">
-                    <select class="form-control">
-                        <option value="--" selected disabled>--</option>
-                        <option>00</option>
-                        <option>15</option>
-                        <option>30</option>
-                        <option>45</option>
-                    </select>
-                </div>
-            </div>
-            <button class="btn btn-primary float-right" type="submit">Search</button>
-        </form>
-    </div>
-
-    {% block marketing %}
-    <div class="row marketing">
-        <div class="col-lg-6">
-            <h4><span class="oi oi-check" style="color: #4CAF50;"></span> Fastest airport service</h4>
-            <p>Pick up / drop off car in front of terminal No shuttle to off location</p>
-            <h4><span class="oi oi-check" style="color: #4CAF50;"></span> 100% All Inclusive rates</h4>
-            <p>No unexpected surprises upon arrival Lowest deductible</p>
-        </div>
-
-        <div class="col-lg-6">
-            <h4><span class="oi oi-check" style="color: #4CAF50;"></span> No fuel rip-off</h4>
-            <p>We do not charge refueling service fee.</p>
-            <h4><span class="oi oi-check" style="color: #4CAF50;"></span> Subheading</h4>
-            <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
-        </div>
-    </div>
-    {% endblock %}
+    {% if search_result %}
+        {% include "search_result.html" %}
+    {% else %}
+        {% include "marketing.html" %}
+    {% endif %}
 
 </div>
 
 <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script>$('.carousel').carousel();</script>
 <script type="text/javascript">
   $( function() {
-    $("#date-arrival").datepicker(
+    $("#id_arrival_date").datepicker(
     {
       dateFormat: 'dd/mm/yy',
       firstDay: 1,
@@ -155,7 +34,7 @@
     });
   });
   $( function() {
-    $("#date-departure").datepicker(
+    $("#id_departure_date").datepicker(
     {
       dateFormat: 'dd/mm/yy',
       firstDay: 1,
