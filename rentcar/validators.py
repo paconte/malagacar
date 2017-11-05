@@ -45,7 +45,6 @@ def minutes_validator(value):
 
 
 def hours_validator(value):
-    print(type(value), value)
     if value not in HOURS_LIST:
         msg = u"Wrong minutes"
         raise ValidationError(msg)
