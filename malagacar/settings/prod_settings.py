@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rentcar',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
