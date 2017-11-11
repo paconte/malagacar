@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from .validators import DATE_FORMAT, arrival_date_validator, departure_date_validator, hours_validator, \
-    minutes_validator, get_min_arrival_date, get_max_arrival_date
+    minutes_validator, get_min_arrival_date, get_min_departure_date
 
 
 class SearchForm(forms.Form):
@@ -14,7 +14,7 @@ class SearchForm(forms.Form):
     minutes_list = [('--', '--'), ('00', '00'), ('15', '15'), ('30', '30'), ('45', '45')]
 
     arrival_initial_date = get_min_arrival_date().strftime(DATE_FORMAT)
-    departure_initial_date = get_max_arrival_date().strftime(DATE_FORMAT)
+    departure_initial_date = get_min_departure_date().strftime(DATE_FORMAT)
 
     arrival_location = forms.ChoiceField(choices=locations_list, label='Arrival')
     arrival_date = forms.CharField(initial=arrival_initial_date, validators=[arrival_date_validator])
