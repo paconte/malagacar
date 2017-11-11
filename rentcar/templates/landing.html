@@ -7,7 +7,8 @@
 
     {% include "find_cars_form.html" %}
 
-    {% if search_result %}
+    {% if available_cars %}
+        {{ available_cars }}
         {% include "search_result.html" %}
     {% else %}
         {% include "marketing.html" %}

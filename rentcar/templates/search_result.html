@@ -1,5 +1,43 @@
 {% load staticfiles %}
 
+
+{% for car in available_cars %}
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+          <div class="col-md-4">{{ car.group }}</div>
+          <div class="col-md-6"><h4>{{ car.name }}</h4></div>
+      </div>
+    </div>
+      <div class="card-body">
+      <div class="row">
+          <div class="col-md-4">
+              <div class="photo-box">
+                  <img class="img-fluid" src="http://placehold.it/400x300" alt="image">
+              </div>
+          </div>
+          <div class="col-md-4">
+              <br>
+              <dl class="text-center">
+                  <dd><span class="oi oi-droplet"></span> {{car.fuel}}</dd>
+                  <dd><span class="oi oi-fork"></span> {{car.mechanic}}</dd>
+                  <dd><span class="oi oi-person"></span> {{car.places}}</dd>
+                  {% if car.air_conditioning %}
+                  <dd><span class="oi oi-sun"></span> Airco</dd>
+                  {% endif %}
+              </dl>
+          </div>
+          <div class="col-md-4">
+              <p><h1 class="text-center">50 &euro;</h1></p>
+              <a class="btn btn-primary btn-block btn-lg" href="{% url 'booking' %}" role="button">Select</a>
+          </div>
+      </div>
+  </div>
+</div>
+<br>
+
+{% endfor %}
+
 <div class="card">
   <div class="card-header">
       <div class="row">
