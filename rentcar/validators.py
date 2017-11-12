@@ -50,5 +50,33 @@ def hours_validator(value):
         raise ValidationError(msg)
 
 
+def date_to_string(date):
+    return date.strftime(DATE_FORMAT)
+
+
+def extract_time_from_date(date):
+    return date.strftime('%H:%M')
+
+
 def convert_date(value):
     return datetime.datetime.strptime(value, DATE_FORMAT)
+
+
+def convert_dates(arrival_date, arrival_hours, arrival_minutes, departure_date, departure_hours, departure_minutes):
+    date_from = convert_date(arrival_date).replace(hour=int(arrival_hours), minute=int(arrival_minutes))
+    date_until = convert_date(departure_date).replace(hour=int(departure_hours), minute=int(departure_minutes))
+    return date_from, date_until
+
+
+def calculate_total_rent_days(arrival_date, arrival_hours, arrival_minutes,
+                              departure_date, departure_hours, departure_minutes):
+
+    # get dates
+    date_from = convert_date(arrival_date).replace(hour=int(arrival_hours), minute=int(arrival_minutes))
+    date_until = convert_date(departure_date).replace(hour=int(departure_hours), minute=int(departure_minutes))
+    # get total of days to pay
+    import math
+    seconds_per_day = 86400
+    days_delta = date_until - date_from
+    days = math.ceil(days_delta.total_seconds() / seconds_per_day)
+    return days

@@ -2,6 +2,7 @@
 {% load staticfiles %}
 
 {% block content %}
+
 <div class="card">
   <h4 class="card-header">DATES</h4>
   <div class="card-body" style="z-index: 100;">
@@ -18,16 +19,16 @@
               <td><i class="fa fa-flag-checkered"></i>  Malaga airport</td>
           </tr>
           <tr>
-              <td><i class="fa fa-calendar"></i> 21/10/2017</td>
-              <td><i class="fa fa-calendar"></i>  28/10/2017</td>
+              <td><i class="fa fa-calendar"></i>  {{str_date_from}}</td>
+              <td><i class="fa fa-calendar"></i>  {{str_date_until}}</td>
           </tr>
           <tr>
-              <td><i class="fa fa-clock-o"></i>  12:00</td>
-              <td><i class="fa fa-clock-o"></i>  18:00</td>
+              <td><i class="fa fa-clock-o"></i>  {{str_time_from}}</td>
+              <td><i class="fa fa-clock-o"></i>  {{str_time_until}}</td>
           </tr>
           <tr>
               <td><b>Flight Number:</b>  FY 9080</td>
-              <td><b>Duration:</b>  7 day(s)</td>
+              <td><b>Duration:</b>  {{rent_days}} day(s)</td>
           </tr>
           </tbody>
       </table>
@@ -38,7 +39,7 @@
 <div class="card">
     <h4 class="card-header">CAR HIRE DETAILS</h4>
     <div class="card-body">
-        <h4 class="card-title">Volkswagen Golf IV or similar</h4>
+        <h4 class="card-title">{{car.name}} or similar</h4>
         <dl>
             <dd><i class="fa fa-check" style="color: #4CAF50;"></i> Partial Damage Cover with excess (CDW)</dd>
             <dd><i class="fa fa-check" style="color: #4CAF50;"></i> Roadside Assistance with charge</dd>
@@ -46,9 +47,9 @@
             <dd><i class="fa fa-check" style="color: #4CAF50;"></i> VAT included.</dd>
         </dl>
     </div>
-    <div class="card-footer text-right">
-        <button class="btn">
-            Total price: <span class="badge badge-secondary">70 &euro;</span> VAT incl.
+    <div class="card-footer text-center">
+        <button class="btn btn-success">
+            Total price: <span class="badge badge-secondary">{{price}} &euro;</span> VAT incl.
         </button>
     </div>
 </div>

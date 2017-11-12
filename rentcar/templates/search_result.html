@@ -1,7 +1,12 @@
 {% load staticfiles %}
 
+{% for car, price in available_cars %}
+<form method="post" action="{% url 'booking' car.id %}">
+{% csrf_token %}
+    <div style="display:none">
+        {{form}}
+    </div>
 
-{% for car in available_cars %}
 <div class="card">
     <div class="card-header">
         <div class="row">
@@ -28,13 +33,15 @@
               </dl>
           </div>
           <div class="col-md-4">
-              <p><h1 class="text-center">50 &euro;</h1></p>
-              <a class="btn btn-primary btn-block btn-lg" href="{% url 'booking' %}" role="button">Select</a>
+              <p><h1 class="text-center">{{price}} &euro;</h1></p>
+              <button class="btn btn-primary btn-block btn-lg" type="submit" role="button">Select</button>
           </div>
       </div>
   </div>
 </div>
 <br>
+</form>
+
 
 {% endfor %}
 
@@ -63,13 +70,14 @@
           </div>
           <div class="col-md-4">
               <p><h1 class="text-center">50 &euro;</h1></p>
-              <a class="btn btn-primary btn-block btn-lg" href="{% url 'booking' %}" role="button">Select</a>
+              <a class="btn btn-primary btn-block btn-lg" href="{% url 'booking' 1 %}" role="button">Select</a>
           </div>
       </div>
   </div>
 </div>
 <br>
 
+<!--
 <div class="card">
   <div class="card-header">
       <div class="row">
@@ -95,7 +103,7 @@
           </div>
           <div class="col-md-4">
               <p><h1 class="text-center">50 &euro;</h1></p>
-              <a class="btn btn-primary btn-block btn-lg" href="{% url 'booking' %}" role="button">Select</a>
+              <a class="btn btn-primary btn-block btn-lg" href="{% url 'booking' 1%}" role="button">Select</a>
           </div>
       </div>
   </div>
@@ -144,7 +152,7 @@
           </div>
           <div class="col-md-4">
               <p><h1 class="text-center">50 &euro;</h1></p>
-              <a class="btn btn-primary btn-block btn-lg" href="{% url 'booking' %}" role="button">Select</a>
+              <a class="btn btn-primary btn-block btn-lg" href="{% url 'booking' 1 %}" role="button">Select</a>
           </div>
       </div>
   </div>
@@ -177,9 +185,10 @@
           </div>
           <div class="col-md-4">
               <p><h1 class="text-center">50 &euro;</h1></p>
-              <a class="btn btn-primary btn-block btn-lg" href="{% url 'booking' %}" role="button">Select</a>
+              <a class="btn btn-primary btn-block btn-lg" href="{% url 'booking' 1%}" role="button">Select</a>
           </div>
       </div>
   </div>
 </div>
 <br>
+-->
