@@ -1,6 +1,5 @@
-import datetime
 from django.db import models
-from rentcar.validators import convert_date
+from rentcar.validators import convert_dates
 
 CAR_GROUPS_CHOICES = (('Group A', 'Group A'), ('Group B', 'Group B'))
 CAR_BRANDS_CHOICES = (('Renault', 'Renault'), ('Volkswagen', 'Volkswagen'))
@@ -45,6 +44,9 @@ class Car(models.Model):
     def __str__(self):
         return self.name
 
+    def calculate_price(self, days):
+        return days * self.group.day_price
+
 
 class Booking(models.Model):
     car = models.ForeignKey(Car)
@@ -62,23 +64,46 @@ class Booking(models.Model):
 def search_available_cars(arrival_date, arrival_hours, arrival_minutes,
                           departure_date, departure_hours, departure_minutes):
 
-    date_from = convert_date(arrival_date).replace(hour=int(arrival_hours), minute=int(arrival_minutes))
-    date_until = convert_date(departure_date).replace(hour=int(departure_hours), minute=int(departure_minutes))
+    date_from, date_until = convert_dates(
+        arrival_date, arrival_hours, arrival_minutes, departure_date, departure_hours, departure_minutes)
     cars = Car.objects.filter(available=True)
     available_cars = list()
 
     for car in cars:
-        # only cars available must be appear in the search
-        # only cars without a date_from in the desired period must appear in the search
-        # only cars without a date_until in the desired period must appear in the search
-        bookings = Booking.objects.filter(car=car)\
-            .filter(date_from__gte=date_from).filter(date_from__lte=date_until)\
-            .filter(date_until__gte=date_from).filter(date_until__lte=date_until)
-        if not bookings:
+        if check_car_is_available(car, date_from, date_until):
             available_cars.append(car)
 
-    print(date_from, date_until)
-    print(cars, available_cars)
-    print(bookings)
     return available_cars
+
+
+def check_car_is_available(car_id,
+                           arrival_date, arrival_hours, arrival_minutes,
+                           departure_date, departure_hours, departure_minutes):
+    result = False
+    date_from, date_until = convert_dates(
+        arrival_date, arrival_hours, arrival_minutes, departure_date, departure_hours, departure_minutes)
+    car = Car.objects.get(pk=car_id)
+
+    if car.available and check_car_is_available(car, date_from, date_until):
+        result = True
+
+    return result
+
+
+def check_car_is_available(car, date_from, date_until):
+    # only cars available must be appear in the search
+    # only cars without a date_from in the desired period must appear in the search
+    # only cars without a date_until in the desired period must appear in the search
+    result = False
+    bookings = Booking.objects.filter(car=car) \
+        .filter(date_from__gte=date_from).filter(date_from__lte=date_until) \
+        .filter(date_until__gte=date_from).filter(date_until__lte=date_until)
+    if not bookings:
+        result = True
+    return result
+
+
+def get_car(car_id):
+    return Car.objects.get(pk=car_id)
+
 
