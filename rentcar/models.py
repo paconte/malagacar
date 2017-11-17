@@ -1,5 +1,7 @@
 from django.db import models
-from rentcar.validators import convert_dates
+from rentcar.validators import convert_dates, policy_read_validator
+from django_countries.fields import CountryField
+
 
 CAR_GROUPS_CHOICES = (('Group A', 'Group A'), ('Group B', 'Group B'))
 CAR_BRANDS_CHOICES = (('Renault', 'Renault'), ('Volkswagen', 'Volkswagen'))
@@ -50,12 +52,23 @@ class Car(models.Model):
 
 class Booking(models.Model):
     car = models.ForeignKey(Car)
-    session = models.ForeignKey('sessions.Session')
+    # session = models.ForeignKey('sessions.Session')
     creation_date = models.DateTimeField(auto_now_add=True, editable=False)
     date_from = models.DateTimeField()
     date_until = models.DateTimeField()
     time_period = models.PositiveSmallIntegerField()
     total = models.DecimalField(max_digits=8, decimal_places=2)
+
+    forename = models.CharField(max_length=24, verbose_name='First name')
+    surname = models.CharField(max_length=24, verbose_name='Last name')
+    email = models.EmailField(verbose_name='Email')
+    phone = models.CharField(max_length=64, verbose_name='Phone')
+    address = models.CharField(max_length=256, verbose_name='Address')
+    city = models.CharField(max_length=128, verbose_name='City')
+    zip_code = models.CharField(max_length=256, verbose_name='ZIP/Postal code')
+    country = CountryField(max_length=2, verbose_name='Country')
+    comments = models.TextField(max_length=1024, verbose_name='Comments', blank=True)
+    policy_read = models.BooleanField(default=False, validators=[policy_read_validator])
 
     class Meta:
         ordering = ['-creation_date']
