@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load widget_tweaks %}
+
 
 {% block content %}
-
 <div class="card">
   <h4 class="card-header">DATES</h4>
   <div class="card-body" style="z-index: 100;">
@@ -19,7 +20,7 @@
               <td><i class="fa fa-flag-checkered"></i>  Malaga airport</td>
           </tr>
           <tr>
-              <td><i class="fa fa-calendar"></i>  {{str_date_from}}</td>
+              <td><i class="fa fa-calendar"></i>  {{str_date_from}} {{booking_form.date_from.value}}</td>
               <td><i class="fa fa-calendar"></i>  {{str_date_until}}</td>
           </tr>
           <tr>
@@ -28,7 +29,7 @@
           </tr>
           <tr>
               <td><b>Flight Number:</b>  FY 9080</td>
-              <td><b>Duration:</b>  {{rent_days}} day(s)</td>
+              <td><b>Duration:</b> {{booking_form.time_period.value}} day(s)</td>
           </tr>
           </tbody>
       </table>
@@ -49,12 +50,14 @@
     </div>
     <div class="card-footer text-center">
         <button class="btn btn-success">
-            Total price: <span class="badge badge-secondary">{{price}} &euro;</span> VAT incl.
+            Total price: <span class="badge badge-secondary">{{booking_form.total.value}} &euro;</span> VAT incl.
         </button>
     </div>
 </div>
 <br>
 
+{% include "booking_form.html" %}
+<!--
 <div class="card">
   <h4 class="card-header">PERSONAL DATA</h4>
   <div class="card-body">
@@ -124,4 +127,5 @@
       </form>
   </div>
 </div>
+-->
 {% endblock %}
