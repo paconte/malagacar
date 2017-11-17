@@ -1,0 +1,135 @@
+{% load widget_tweaks %}
+
+<div class="card">
+    <h4 class="card-header">PERSONAL DATA</h4>
+    <div class="card-body">
+        <form method="post" action="{% url 'booking_confirmation' %}">
+            {% csrf_token %}
+            <div class="form-group row">
+              <label for="{{booking_form.forename.id_for_label}}" class="col-sm-3 col-form-label">First Name*</label>
+              <div class="col-sm-9">
+                  {% if booking_form.forename.errors %}
+                  {{booking_form.forename|add_class:'form-control'|add_class:'is-invalid'}}
+                  {% else %}
+                  {{booking_form.forename|add_class:'form-control'}}
+                  {% endif %}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="{{booking_form.surname.id_for_label}}" class="col-sm-3 col-form-label">Last Name*</label>
+              <div class="col-sm-9">
+                  {% if booking_form.surname.errors %}
+                  {{booking_form.surname|add_class:'form-control'|add_class:'is-invalid'}}
+                  {% else %}
+                  {{booking_form.surname|add_class:'form-control'}}
+                  {% endif %}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="{{booking_form.email.id_for_label}}" class="col-sm-3 col-form-label">Email*</label>
+              <div class="col-sm-9">
+                  {% if booking_form.email.errors %}
+                  {{booking_form.email|add_class:'form-control'|add_class:'is-invalid'}}
+                  {% else %}
+                  {{booking_form.email|add_class:'form-control'}}
+                  {% endif %}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="{{booking_form.phone.id_for_label}}" class="col-sm-3 col-form-label">Mobile phone*</label>
+              <div class="col-sm-9">
+                  {% if booking_form.phone.errors %}
+                  {{booking_form.phone|add_class:'form-control'|add_class:'is-invalid'}}
+                  {% else %}
+                  {{booking_form.phone|add_class:'form-control'}}
+                  {% endif %}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="{{booking_form.address.id_for_label}}" class="col-sm-3 col-form-label">Address*</label>
+              <div class="col-sm-9">
+                  {% if booking_form.address.errors %}
+                  {{booking_form.address|add_class:'form-control'|add_class:'is-invalid'}}
+                  {% else %}
+                  {{booking_form.address|add_class:'form-control'}}
+                  {% endif %}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="{{booking_form.zip_code.id_for_label}}" class="col-sm-3 col-form-label">Zipcode*</label>
+              <div class="col-sm-9">
+                  {% if booking_form.zip_code.errors %}
+                  {{booking_form.zip_code|add_class:'form-control'|add_class:'is-invalid'}}
+                  {% else %}
+                  {{booking_form.zip_code|add_class:'form-control'}}
+                  {% endif %}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="{{booking_form.city.id_for_label}}" class="col-sm-3 col-form-label">City*</label>
+              <div class="col-sm-9">
+                  {% if booking_form.city.errors %}
+                  {{booking_form.city|add_class:'form-control'|add_class:'is-invalid'}}
+                  {% else %}
+                  {{booking_form.city|add_class:'form-control'}}
+                  {% endif %}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="{{booking_form.country.id_for_label}}" class="col-sm-3 col-form-label">Country*</label>
+              <div class="col-sm-9">
+                  {% if booking_form.country.errors %}
+                  {{booking_form.country|add_class:'form-control'|add_class:'is-invalid'}}
+                  {% else %}
+                  {{booking_form.country|add_class:'form-control'}}
+                  {% endif %}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="{{booking_form.comments.id_for_label}}" class="col-sm-3 col-form-label">Comments</label>
+              <div class="col-sm-9">
+                  {% if booking_form.comments.errors %}
+                  {{booking_form.comments|add_class:'form-control'|add_class:'is-invalid'}}
+                  {% else %}
+                  {{booking_form.comments|add_class:'form-control'}}
+                  {% endif %}
+              </div>
+            </div>
+
+            <div class="form-check">
+                <label for="{{booking_form.policy_read.id_for_label}}" class="custom-control custom-checkbox">
+                    {% if booking_form.policy_read.errors %}
+                    {{booking_form.policy_read|add_class:'form-check-input'|add_class:'is-invalid'}}
+                    <span class="custom-control-description" style="color: red">
+                        I have read, agree, and understand Malagacar.com's privacy policy.
+                    </span>
+                    {% else %}
+                    {{booking_form.policy_read|add_class:'form-check-input'}}
+                    <span class="custom-control-description">
+                        I have read, agree, and understand Malagacar.com's privacy policy.
+                    </span>
+                    {% endif %}
+                </label>
+            </div>
+
+            <div style="display:none">
+                {{booking_form.car}}
+                {{booking_form.date_from}}
+                {{booking_form.date_until}}
+                {{booking_form.time_period}}
+                {{booking_form.total}}
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
