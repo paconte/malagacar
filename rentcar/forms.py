@@ -2,6 +2,7 @@
 from django import forms
 from .validators import DATE_FORMAT, arrival_date_validator, departure_date_validator, hours_validator, \
     minutes_validator, get_min_arrival_date, get_min_departure_date
+from rentcar.models import Booking
 
 
 class SearchForm(forms.Form):
@@ -25,3 +26,10 @@ class SearchForm(forms.Form):
     departure_date = forms.CharField(initial=departure_initial_date, validators=[departure_date_validator])
     departure_hours = forms.ChoiceField(choices=hours_list, validators=[hours_validator])
     departure_minutes = forms.ChoiceField(choices=minutes_list, validators=[minutes_validator])
+
+
+class BookingForm(forms.ModelForm):
+
+    class Meta:
+        model = Booking
+        fields = '__all__'
