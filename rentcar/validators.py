@@ -80,3 +80,8 @@ def calculate_total_rent_days(arrival_date, arrival_hours, arrival_minutes,
     days_delta = date_until - date_from
     days = math.ceil(days_delta.total_seconds() / seconds_per_day)
     return days
+
+
+def policy_read_validator(value):
+    if not value:
+        raise ValidationError('OBEY')
