@@ -8,9 +8,9 @@ from rentcar.validators import calculate_total_rent_days, convert_dates, date_to
 
 def index(request):
     if request.method == 'POST':
-        search_form = SearchForm(request.POST)
+        search_form = SearchForm(request.POST, prefix='search_form')
         if search_form.is_valid():
-            a, b, c, d, e, f = _get_dates_arguments(request)
+            a, b, c, d, e, f = _get_dates_arguments(request, prefix='search_form')
             # get available cars for given dates
             available_cars = search_available_cars(a, b, c, d, e, f)
             # calculate the total numbers of days the car is hired
@@ -36,32 +36,29 @@ def index(request):
         else:
             return render(request, 'landing.html', {'form': search_form})
     else:
-        return render(request, 'landing.html', {'form': SearchForm()})
+        return render(request, 'landing.html', {'form': SearchForm(prefix='search_form')})
 
 
 def booking(request, car_id):
     if request.method == 'POST':
-        search_form = SearchForm(request.POST)
+        search_form = SearchForm(request.POST, prefix='search_form')
         if search_form.is_valid():
             # retrieve the car data from db
             car = _get_car(request, car_id, search_form)
             # calculate the dates
-            a, b, c, d, e, f = _get_dates_arguments(request)
-            date_from, date_until = convert_dates(a, b, c, d, e, f)
-            str_date_from = date_to_string(date_from)
-            str_date_until = date_to_string(date_until)
-            str_time_from = extract_time_from_date(date_from)
-            str_time_until = extract_time_from_date(date_until)
+            a, b, c, d, e, f = _get_dates_arguments(request, prefix='search_form')
+            date_from, date_until, str_date_from, str_date_until, str_time_from, str_time_until \
+                = _calculate_dates(a, b, c, d, e, f)
             # calculate price and total rented days
             rent_days = calculate_total_rent_days(a, b, c, d, e, f)
             price = car.calculate_price(rent_days)
             # pre fill out the reservation
             reservation = Booking(date_from=date_from, date_until=date_until, time_period=rent_days,
                                   car=car, total=price)
-            booking_form = BookingForm(instance=reservation)
+            booking_form = BookingForm(instance=reservation, prefix='booking_form')
 
             return render(request, 'booking.html',
-                          {'car': car, 'booking_form': booking_form,
+                          {'car': car, 'booking_form': booking_form, 'search_form': search_form,
                            'str_date_from': str_date_from, 'str_date_until': str_date_until,
                            'str_time_from': str_time_from, 'str_time_until': str_time_until})
         else:
@@ -72,24 +69,53 @@ def booking(request, car_id):
 
 def booking_confirmation(request):
     if request.method == 'POST':
-        booking_form = BookingForm(request.POST)
-        if booking_form.is_valid():
-            return render(request, 'confirmation.html')
+        booking_form = BookingForm(request.POST, prefix='booking_form')
+        search_form = SearchForm(request.POST, prefix='search_form')
+        if search_form.is_valid():
+            # retrieve the car data from db
+            car = _get_car(request, request.POST['booking_form-car'])
+            # calculate dates
+            a, b, c, d, e, f = _get_dates_arguments(request, prefix='search_form')
+            date_from, date_until, str_date_from, str_date_until, str_time_from, str_time_until \
+                = _calculate_dates(a, b, c, d, e, f)
+            # check booking form
+            if booking_form.is_valid():
+                return render(request, 'confirmation.html')
+            else:
+                return render(request, 'booking.html',
+                              {'car': car, 'booking_form': booking_form, 'search_form': search_form,
+                               'str_date_from': str_date_from, 'str_date_until': str_date_until,
+                               'str_time_from': str_time_from, 'str_time_until': str_time_until})
         else:
-            return render(request, 'booking.html', {'booking_form': booking_form})
+            print('SEARCH FROM IS INVALID')
+            print(search_form.errors, search_form.non_field_errors)
+
+    return render(request, 'landing.html', {'form': SearchForm()})
 
 
-def _get_dates_arguments(request):
-    return (request.POST['arrival_date'], request.POST['arrival_hours'], request.POST['arrival_minutes'],
-            request.POST['departure_date'], request.POST['departure_hours'], request.POST['departure_minutes'])
-
-
-def _get_car(request, car_id, search_form):
+def _get_car(request, car_id, search_form=SearchForm()):
     try:
-        car = get_car(car_id)
+        car = get_car(int(car_id))
     except ObjectDoesNotExist:
         return render(request, 'landing.html', {'form': search_form})
     except MultipleObjectsReturned:
         return render(request, 'landing.html', {'form': search_form})
     return car
+
+
+def _get_dates_arguments(request, prefix):
+    prefix = prefix + '-'
+    return (request.POST[prefix + 'arrival_date'], request.POST[prefix + 'arrival_hours'],
+            request.POST[prefix + 'arrival_minutes'], request.POST[prefix + 'departure_date'],
+            request.POST[prefix + 'departure_hours'], request.POST[prefix + 'departure_minutes'])
+
+
+def _calculate_dates(arrival_date, arrival_hours, arrival_minutes, departure_date, departure_hours, departure_minutes):
+    date_from, date_until = convert_dates(arrival_date, arrival_hours, arrival_minutes, departure_date, departure_hours,
+                                          departure_minutes)
+    str_date_from = date_to_string(date_from)
+    str_date_until = date_to_string(date_until)
+    str_time_from = extract_time_from_date(date_from)
+    str_time_until = extract_time_from_date(date_until)
+    return date_from, date_until, str_date_from, str_date_until, str_time_from, str_time_until
 
