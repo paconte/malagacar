@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
+from django.template.loader import get_template
 
 from rentcar.forms import SearchForm, BookingForm
 from rentcar.models import search_available_cars, get_car, Booking
@@ -80,9 +81,15 @@ def booking_confirmation(request):
             # check booking form
             if booking_form.is_valid():
                 booking = _save_booking_form(booking_form)
-                return render(request, 'confirmation.html',
-                              {'booking': booking, 'str_date_from': str_date_from, 'str_date_until': str_date_until,
-                               'str_time_from': str_time_from, 'str_time_until': str_time_until})
+                context = {'booking': booking, 'str_date_from': str_date_from, 'str_date_until': str_date_until,
+                           'str_time_from': str_time_from, 'str_time_until': str_time_until}
+                # send confirmation e-mail
+                email_html_template = get_template('confirmation_email.html')
+                html_content = email_html_template.render(context)
+                mailgun_request = send_email(booking.email, html_content)
+                print(mailgun_request.json(), mailgun_request.status_code)
+                # render confirmation
+                return render(request, 'confirmation.html', context)
             else:
                 return render(request, 'booking.html',
                               {'car': car, 'booking_form': booking_form, 'search_form': search_form,
@@ -155,3 +162,22 @@ def base36encode(number, alphabet='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'):
 
 def base36decode(number):
     return int(number, 36)
+
+
+def send_email(dst_email, html_content):
+    import requests
+    from django.conf import settings
+
+    print(settings.MAILGUN_KEY)
+    excited_user = ""
+    you = "bookings"
+    your_domain_name = "mail.frevilla.com"
+    subject = "Malagacar booking confirmation"
+
+    return requests.post(
+        "https://api.mailgun.net/v3/{}/messages".format(your_domain_name),
+        auth=("api", "{}".format(settings.MAILGUN_KEY)),
+        data={"from": "{}<{}@{}>".format(excited_user, you, your_domain_name),
+              "to": "{}".format(dst_email),
+              "subject": "{}".format(subject),
+              "html": html_content})
