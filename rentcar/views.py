@@ -56,7 +56,6 @@ def booking(request, car_id):
             reservation = Booking(date_from=date_from, date_until=date_until, time_period=rent_days,
                                   car=car, total=price)
             booking_form = BookingForm(instance=reservation, prefix='booking_form')
-
             return render(request, 'booking.html',
                           {'car': car, 'booking_form': booking_form, 'search_form': search_form,
                            'str_date_from': str_date_from, 'str_date_until': str_date_until,
@@ -80,15 +79,15 @@ def booking_confirmation(request):
                 = _calculate_dates(a, b, c, d, e, f)
             # check booking form
             if booking_form.is_valid():
-                return render(request, 'confirmation.html')
+                booking = _save_booking_form(booking_form)
+                return render(request, 'confirmation.html',
+                              {'booking': booking, 'str_date_from': str_date_from, 'str_date_until': str_date_until,
+                               'str_time_from': str_time_from, 'str_time_until': str_time_until})
             else:
                 return render(request, 'booking.html',
                               {'car': car, 'booking_form': booking_form, 'search_form': search_form,
                                'str_date_from': str_date_from, 'str_date_until': str_date_until,
                                'str_time_from': str_time_from, 'str_time_until': str_time_until})
-        else:
-            print('SEARCH FROM IS INVALID')
-            print(search_form.errors, search_form.non_field_errors)
 
     return render(request, 'landing.html', {'form': SearchForm()})
 
@@ -119,3 +118,40 @@ def _calculate_dates(arrival_date, arrival_hours, arrival_minutes, departure_dat
     str_time_until = extract_time_from_date(date_until)
     return date_from, date_until, str_date_from, str_date_until, str_time_from, str_time_until
 
+
+def _save_booking_form(booking_form):
+    new_booking = booking_form.save()
+    new_booking.booking_number = _get_next_booking_number(new_booking.id)
+    new_booking.save()
+    return new_booking
+
+
+def _get_next_booking_number(booking_id):
+    from datetime import date
+    part1 = base36encode(date.today().year)
+    part2 = base36encode(date.today().month)
+    part3 = base36encode(booking_id)
+    return part1 + part2 + part3
+
+
+def base36encode(number, alphabet='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'):
+    """Converts an integer to a base36 string."""
+    if not isinstance(number, int):
+        raise TypeError('number must be an positive integer')
+    if number < 0:
+        raise TypeError('number must be an positive integer')
+
+    base36 = ''
+
+    if 0 <= number < len(alphabet):
+        return alphabet[number]
+
+    while number != 0:
+        number, i = divmod(number, len(alphabet))
+        base36 = alphabet[i] + base36
+
+    return base36
+
+
+def base36decode(number):
+    return int(number, 36)
