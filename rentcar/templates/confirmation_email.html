@@ -1,0 +1,81 @@
+{% load staticfiles %}
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/open-iconic-bootstrap.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/narrow-jumbotron.css' %}"/>
+
+    <title>Malagacar</title>
+</head>
+
+<body>
+
+<div class="container">
+
+    <p><h4>Booking confirmation: Thank you for booking with Malagacar</h4></p>
+
+    <div class="alert alert-success" role="alert">
+        <p>Booking number:
+        <h3>{{booking.booking_number}}</h3></p>
+
+        <div class="card">
+            <h4 class="card-header">{{booking.car}} or similar</h4>
+            <div class="card-body" style="z-index: 100;">
+                <table class="table borderless">
+                    <thead>
+                    <tr>
+                        <th>Arrival</th>
+                        <th>Departure</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><i class="fa fa-flag-checkered"></i> Malaga airport</td>
+                        <td><i class="fa fa-flag-checkered"></i> Malaga airport</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa fa-calendar"></i> {{str_date_from}}</td>
+                        <td><i class="fa fa-calendar"></i> {{str_date_until}}</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa fa-clock-o"></i> {{str_time_from}}</td>
+                        <td><i class="fa fa-clock-o"></i> {{str_time_until}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Booking Number:</b> {{booking.booking_number}}</td>
+                        <td><b>Duration:</b> {{booking.time_period}} day(s)</td>
+                    </tr>
+                    <tr>
+                        <td><b>Person:</b> {{booking.fullname}}</td>
+                        <td><b>Price:</b> {{booking.total}} EUR</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <hr>
+        <p class="mb-0">Without the booking number and a personal ID you can not pick up the car.</p>
+
+    </div>
+
+    <!-- FOOTER -->
+    <hr class="featurette-divider">
+    <footer>
+        <p>
+            &copy; 2017 Malagacar S.L. &middot; <a href="{% url 'index' %}">Privacy</a> &middot;
+            <a href="{% url 'index' %}">Terms</a>
+        </p>
+    </footer>
+</div>
+
+
+</body>
