@@ -3,8 +3,8 @@ from rentcar.validators import convert_dates, policy_read_validator
 from django_countries.fields import CountryField
 
 
-CAR_GROUPS_CHOICES = (('Group A', 'Group A'), ('Group B', 'Group B'))
-CAR_BRANDS_CHOICES = (('Renault', 'Renault'), ('Volkswagen', 'Volkswagen'))
+CAR_GROUPS_CHOICES = (('Group A', 'Group A'), ('Group B', 'Group B'), ('Group C', 'Group C'))
+CAR_BRANDS_CHOICES = (('Renault', 'Renault'), ('Volkswagen', 'Volkswagen'), ('Ford', 'Ford'), ('BMW', 'BMW'))
 CAR_ENERGY_CHOICES = (('Diesel', 'Diesel'), ('Petrol', 'Petrol'))
 CAR_MECHANIC_CHOICES = (('Automatic', 'Automatic'), ('Manual', 'Manual'))
 
@@ -88,7 +88,7 @@ def search_available_cars(arrival_date, arrival_hours, arrival_minutes,
 
     date_from, date_until = convert_dates(
         arrival_date, arrival_hours, arrival_minutes, departure_date, departure_hours, departure_minutes)
-    cars = Car.objects.filter(available=True)
+    cars = Car.objects.filter(available=True).order_by('group__day_price')
     available_cars = list()
 
     for car in cars:
