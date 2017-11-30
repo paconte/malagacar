@@ -58,6 +58,7 @@ class Booking(models.Model):
     date_until = models.DateTimeField()
     time_period = models.PositiveSmallIntegerField()
     total = models.DecimalField(max_digits=8, decimal_places=2)
+    booking_number = models.CharField(max_length=10, default=None, null=True)
 
     forename = models.CharField(max_length=24, verbose_name='First name')
     surname = models.CharField(max_length=24, verbose_name='Last name')
@@ -72,6 +73,14 @@ class Booking(models.Model):
 
     class Meta:
         ordering = ['-creation_date']
+
+    @property
+    def fullname(self):
+        return str(self.forename) + ' ' + str(self.surname)
+
+    def __str__(self):
+        return " ".join(
+            [str(self.booking_number), str(self.car), str(self.time_period) + " days", str(self.total) + " €"])
 
 
 def search_available_cars(arrival_date, arrival_hours, arrival_minutes,
@@ -118,5 +127,4 @@ def check_car_is_available(car, date_from, date_until):
 
 def get_car(car_id):
     return Car.objects.get(pk=car_id)
-
 
