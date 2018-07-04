@@ -30,7 +30,7 @@ class Car(models.Model):
     properties:
     :name: Returns the representing name of the car combining the brand and model.
     """
-    group = models.ForeignKey(CarGroup)
+    group = models.ForeignKey(CarGroup, on_delete=models.CASCADE)
     brand = models.CharField(choices=CAR_BRANDS_CHOICES, max_length=32)
     model = models.CharField(max_length=32)
     places = models.PositiveSmallIntegerField()
@@ -51,7 +51,7 @@ class Car(models.Model):
 
 
 class Booking(models.Model):
-    car = models.ForeignKey(Car)
+    car = models.ForeignKey(Car, on_delete=models.CASCADE)
     # session = models.ForeignKey('sessions.Session')
     creation_date = models.DateTimeField(auto_now_add=True, editable=False)
     date_from = models.DateTimeField()
